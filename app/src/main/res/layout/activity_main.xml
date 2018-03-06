@@ -7,39 +7,45 @@
     tools:context="com.example.franz.studienplaner.MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_mei"
         android:layout_width="280dp"
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="120dp"
-        android:text="Modulübersicht"
+        android:layout_marginTop="100dp"
+        android:text="@string/mei"
+        android:textSize="16sp"
+        android:background="@drawable/button_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/button_inf"
         android:layout_width="280dp"
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="48dp"
-        android:text="Notenübersicht"
+        android:text="@string/inf"
+        android:textSize="16sp"
+        android:background="@drawable/button_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/button_mei" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/button_grades"
         android:layout_width="280dp"
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="48dp"
-        android:text="Fortschritt"
+        android:text="@string/grades"
+        android:textSize="16sp"
+        android:background="@drawable/button_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintTop_toBottomOf="@+id/button_inf" />
 
 </android.support.constraint.ConstraintLayout>
