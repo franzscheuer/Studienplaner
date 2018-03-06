@@ -8,7 +8,7 @@
 
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button_mei"
         android:layout_width="280dp"
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/button_inf"
         android:layout_width="280dp"
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
@@ -31,5 +31,5 @@
         android:background="@drawable/button_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/button_mei" />
 </android.support.constraint.ConstraintLayout>

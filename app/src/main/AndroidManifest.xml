@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ModulsActivity" />
+        <activity android:name=".GradesActivity" />
+        <activity android:name=".ProgressActivity" />
+        <activity android:name=".SubjectsActivity" />
+
     </application>
 
 </manifest>
