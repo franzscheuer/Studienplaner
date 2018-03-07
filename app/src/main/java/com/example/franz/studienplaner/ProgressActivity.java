@@ -10,6 +10,8 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
+        getSupportActionBar().setTitle("Fortschrittsanzeige");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setupUI();
     }
 

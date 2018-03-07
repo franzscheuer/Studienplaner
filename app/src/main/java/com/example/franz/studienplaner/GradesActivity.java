@@ -10,6 +10,8 @@ public class GradesActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grades);
+        getSupportActionBar().setTitle("Notenübersicht");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setupUI();
     }
 
