@@ -18,11 +18,29 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setTitle("Fortschrittsanzeige");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setupUI();
+        int progress = getProgress();
+        updateProgressBar(progress);
+        setMissingCourses();
     }
 
     private void setupUI() {
         progressBar = findViewById(R.id.progressBar);
         missingCourses = findViewById(R.id.textView2);
+    }
+
+    private void updateProgressBar(int value) {
+        progressBar.setProgress(value);
+    }
+
+    private int getProgress() {
+        // int progress;
+        //calculate progress
+        // return progress;
+        return 75;
+    }
+
+    private void setMissingCourses() {
+        //missingCourses.setText();
     }
 
     @Override
