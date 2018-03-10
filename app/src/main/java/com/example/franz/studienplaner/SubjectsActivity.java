@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class SubjectsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class SubjectsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner spinner;
     TextView position1, position2, position3;
@@ -111,11 +111,6 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void onClick(View view) {
-
-    }
-
-    @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch(adapterView.getItemAtPosition(i).toString()){
             case "MEI-M01":
@@ -125,11 +120,11 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
             case "INF-M07":
                 showAll();
                 hideLast();
-                //fillInformation(adapterView.getItemAtPosition(i).toString());
+                fillInformation(adapterView.getItemAtPosition(i).toString());
                 break;
             default:
                 showAll();
-                //fillInformation(adapterView.getItemAtPosition(i).toString());
+                fillInformation(adapterView.getItemAtPosition(i).toString());
                 break;
         }
     }

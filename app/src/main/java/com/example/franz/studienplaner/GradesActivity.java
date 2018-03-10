@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class GradesActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class GradesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner spinner1, spinner2;
     TextView grades;
@@ -20,15 +20,16 @@ public class GradesActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setTitle("Notenübersicht");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setupUI();
-        disableSecondSpinner();
         fillFirstSpinner();
+        emptySecondSpinner();
+        disableSecondSpinner();
     }
 
     private void setupUI() {
         spinner1 = findViewById(R.id.spinner1);
         spinner1.setOnItemSelectedListener(this);
         spinner2 = findViewById(R.id.spinner2);
-        //spinner2.setOnItemSelectedListener(this);
+        spinner2.setOnItemSelectedListener(this);
         grades = findViewById(R.id.textView);
     }
 
@@ -65,34 +66,31 @@ public class GradesActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void fillTextView(String g) {
-
-    }
-
-    @Override
-    public void onClick(View view) {
-
+        // grades.setText();
+        grades.setText(g);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        switch(adapterView.getItemAtPosition(i).toString()){
-            case "Gesamtübersicht":
-                emptySecondSpinner();
-                disableSecondSpinner();
-                //fillTextView("all");
-                break;
-            case "Medieninformatik":
-                enableSecondSpinner();
-                fillSecondSpinner("mei");
-                break;
-            case "Informationswissenschaften":
-                enableSecondSpinner();
-                fillSecondSpinner("inf");
-                break;
-            default:
-                emptySecondSpinner();
-                disableSecondSpinner();
-                break;
+        Spinner spinner = (Spinner) adapterView;
+        String input = adapterView.getItemAtPosition(i).toString();
+        if (spinner.getId() == R.id.spinner1) {
+            switch (input) {
+                case "Gesamtübersicht":
+                    emptySecondSpinner();
+                    disableSecondSpinner();
+                    break;
+                case "Medieninformatik":
+                    enableSecondSpinner();
+                    fillSecondSpinner("mei");
+                    break;
+                case "Informationswissenschaften":
+                    enableSecondSpinner();
+                    fillSecondSpinner("inf");
+                    break;
+            }
+        } else if (spinner.getId() == R.id.spinner2) {
+            fillTextView(input);
         }
     }
 

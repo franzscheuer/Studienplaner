@@ -2,11 +2,10 @@ package com.example.franz.studienplaner;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class ProgressActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProgressActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
     TextView missingCourses;
@@ -18,8 +17,7 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setTitle("Fortschrittsanzeige");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setupUI();
-        int progress = getProgress();
-        updateProgressBar(progress);
+        updateProgressBar();
         setMissingCourses();
     }
 
@@ -28,23 +26,12 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
         missingCourses = findViewById(R.id.textView2);
     }
 
-    private void updateProgressBar(int value) {
+    private void updateProgressBar() {
+        int value = 75;
         progressBar.setProgress(value);
     }
 
-    private int getProgress() {
-        // int progress;
-        //calculate progress
-        // return progress;
-        return 75;
-    }
-
     private void setMissingCourses() {
-        //missingCourses.setText();
-    }
-
-    @Override
-    public void onClick(View view) {
-
+        // missingCourses.setText();
     }
 }
