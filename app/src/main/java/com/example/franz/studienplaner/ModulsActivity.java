@@ -19,13 +19,15 @@ public class ModulsActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setupUI() {
         Button medieninformatik = findViewById(R.id.button_mei);
+        medieninformatik.setTag("mei");
         medieninformatik.setOnClickListener(this);
         Button informationswissenschaft = findViewById(R.id.button_inf);
+        informationswissenschaft.setTag("inf");
         informationswissenschaft.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        startActivity(new Intent(ModulsActivity.this, SubjectsActivity.class).putExtra("subject", view.getId()));
+        startActivity(new Intent(ModulsActivity.this, SubjectsActivity.class).putExtra("subject", String.valueOf(view.getTag())));
     }
 }

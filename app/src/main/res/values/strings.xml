@@ -21,6 +21,25 @@
         <item>MEI-M10</item>
     </string-array>
 
+    <string-array name="mei_kurse">
+        <item>MEI-M01.1</item>
+        <item>MEI-M01.2</item>
+        <item>MEI-M02.1</item>
+        <item>MEI-M02.2</item>
+        <item>MEI-M03.1</item>
+        <item>MEI-M03.2</item>
+        <item>MEI-M03.3</item>
+        <item>MEI-M04.1</item>
+        <item>MEI-M04.2</item>
+        <item>MEI-M04.3</item>
+        <item>MEI-M05.1</item>
+        <item>MEI-M05.2</item>
+        <item>MEI-M05.3</item>
+        <item>MEI-M10.1</item>
+        <item>MEI-M10.2</item>
+        <item>MEI-M10.3</item>
+    </string-array>
+
     <string-array name="inf_module">
         <item>INF-M01</item>
         <item>INF-M02</item>
@@ -28,6 +47,24 @@
         <item>INF-M05</item>
         <item>INF-M06</item>
         <item>INF-M07</item>
+    </string-array>
+
+    <string-array name="inf_kurse">
+        <item>INF-M01.1</item>
+        <item>INF-M01.2</item>
+        <item>INF-M02.1</item>
+        <item>INF-M02.2</item>
+        <item>INF-M02.3</item>
+        <item>INF-M04.1</item>
+        <item>INF-M04.2</item>
+        <item>INF-M04.3</item>
+        <item>INF-M05.1</item>
+        <item>INF-M05.2</item>
+        <item>INF-M06.1</item>
+        <item>INF-M06.2</item>
+        <item>INF-M06.3</item>
+        <item>INF-M07.1</item>
+        <item>INF-M07.2</item>
     </string-array>
 
     <string-array name="noten_auswahl">

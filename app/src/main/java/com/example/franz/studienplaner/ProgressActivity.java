@@ -2,13 +2,13 @@ package com.example.franz.studienplaner;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 public class ProgressActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
-    TextView missingCourses;
+    ListView missingCourses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class ProgressActivity extends AppCompatActivity {
 
     private void setupUI() {
         progressBar = findViewById(R.id.progressBar);
-        missingCourses = findViewById(R.id.textView2);
+        missingCourses = findViewById(R.id.listView);
     }
 
     private void updateProgressBar() {
@@ -32,6 +32,6 @@ public class ProgressActivity extends AppCompatActivity {
     }
 
     private void setMissingCourses() {
-        // missingCourses.setText();
+        // get all not finished courses from database
     }
 }

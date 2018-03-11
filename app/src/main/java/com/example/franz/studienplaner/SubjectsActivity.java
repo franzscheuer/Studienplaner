@@ -5,18 +5,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class SubjectsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Spinner spinner;
-    TextView position1, position2, position3;
-    CheckBox checkbox1, checkbox2, checkbox3;
-    EditText name1, name2, name3;
-    EditText note1, note2, note3;
+public class SubjectsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+    private Spinner spinner;
+    private TextView position1, position2, position3;
+    private CheckBox checkbox1, checkbox2, checkbox3;
+    private EditText name1, name2, name3;
+    private EditText note1, note2, note3;
+    private Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +35,9 @@ public class SubjectsActivity extends AppCompatActivity implements AdapterView.O
     private String getSubject() {
         String subject = "";
         Bundle extras = getIntent().getExtras();
-        if(extras.getInt("subject") == 0x7f080026) {
+        if(extras.getString("subject").equals("mei")) {
             subject = "Medieninformatik";
-        } else if(extras.getInt("subject") == 0x7f080025) {
+        } else if(extras.getString("subject").equals("inf")) {
             subject = "Informationswissenschaften";
         }
         return subject;
@@ -55,6 +58,8 @@ public class SubjectsActivity extends AppCompatActivity implements AdapterView.O
         note1 = findViewById(R.id.note1);
         note2 = findViewById(R.id.note2);
         note3 = findViewById(R.id.note3);
+        addButton = findViewById(R.id.addButton);
+        addButton.setOnClickListener(this);
     }
 
     private void fillSpinner(String i) {
@@ -106,13 +111,27 @@ public class SubjectsActivity extends AppCompatActivity implements AdapterView.O
         note3.setVisibility(View.INVISIBLE);
     }
 
-    private void fillInformation(String k) {
+    private void fillModulNames(String m) {
+        String modulPosition1 = m + ".1";
+        String modulPosition2 = m + ".2";
+        String modulPosition3 = m + ".3";
+        position1.setText(modulPosition1);
+        position2.setText(modulPosition2);
+        position3.setText(modulPosition3);
+    }
 
+    private void fillInformation(String k) {
+        // get data from database and fill in
+    }
+
+    private void safeDataInDatabase() {
+        // safe data into database
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        switch(adapterView.getItemAtPosition(i).toString()){
+        String item = adapterView.getItemAtPosition(i).toString();
+        switch(item){
             case "MEI-M01":
             case "MEI-M02":
             case "INF-M01":
@@ -120,10 +139,12 @@ public class SubjectsActivity extends AppCompatActivity implements AdapterView.O
             case "INF-M07":
                 showAll();
                 hideLast();
+                fillModulNames(item);
                 fillInformation(adapterView.getItemAtPosition(i).toString());
                 break;
             default:
                 showAll();
+                fillModulNames(item);
                 fillInformation(adapterView.getItemAtPosition(i).toString());
                 break;
         }
@@ -132,5 +153,10 @@ public class SubjectsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        safeDataInDatabase();
     }
 }

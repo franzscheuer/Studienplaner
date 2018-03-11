@@ -66,7 +66,7 @@ public class GradesActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     private void fillTextView(String g) {
-        // grades.setText();
+        // get all grades for chosen modul
         grades.setText(g);
     }
 
