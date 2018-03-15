@@ -1,5 +1,6 @@
 package com.example.franz.studienplaner;
 
+import android.content.ContentValues;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class SubjectsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -19,7 +21,8 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     private CheckBox checkbox1, checkbox2, checkbox3;
     private EditText name1, name2, name3;
     private EditText note1, note2, note3;
-    private Button addButton;
+    private Button button;
+    private boolean editMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setupUI();
         hideAll();
+        disableEditMode();
         fillSpinner(getSubject());
     }
 
@@ -58,8 +62,8 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         note1 = findViewById(R.id.note1);
         note2 = findViewById(R.id.note2);
         note3 = findViewById(R.id.note3);
-        addButton = findViewById(R.id.addButton);
-        addButton.setOnClickListener(this);
+        button = findViewById(R.id.addButton);
+        button.setOnClickListener(this);
     }
 
     private void fillSpinner(String i) {
@@ -124,7 +128,22 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         // get data from database and fill in
     }
 
+    private ContentValues getData() {
+        ContentValues cv = new ContentValues();
+        cv.put("name1", name1.getText().toString());
+        cv.put("checkbox1", checkbox1.isChecked());
+        cv.put("grade1", note1.getText().toString());
+        cv.put("name2", name1.getText().toString());
+        cv.put("checkbox2", checkbox1.isChecked());
+        cv.put("grade2", note1.getText().toString());
+        cv.put("name3", name1.getText().toString());
+        cv.put("checkbox3", checkbox1.isChecked());
+        cv.put("grade3", note1.getText().toString());
+        return cv;
+    }
+
     private void safeDataInDatabase() {
+        // getData();
         // safe data into database
     }
 
@@ -157,6 +176,40 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        safeDataInDatabase();
+        if(!editMode) {
+            button.setText(R.string.speichern);
+            editMode = true;
+            activateEditMode();
+        } else {
+            safeDataInDatabase();
+            button.setText(R.string.bearbeiten);
+            editMode = false;
+            disableEditMode();
+            Toast.makeText(this, "Speichern erfolgreich", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void activateEditMode() {
+        name1.setEnabled(true);
+        name2.setEnabled(true);
+        name3.setEnabled(true);
+        note1.setEnabled(true);
+        note2.setEnabled(true);
+        note3.setEnabled(true);
+        checkbox1.setEnabled(true);
+        checkbox2.setEnabled(true);
+        checkbox3.setEnabled(true);
+    }
+
+    private void disableEditMode() {
+        name1.setEnabled(false);
+        name2.setEnabled(false);
+        name3.setEnabled(false);
+        note1.setEnabled(false);
+        note2.setEnabled(false);
+        note3.setEnabled(false);
+        checkbox1.setEnabled(false);
+        checkbox2.setEnabled(false);
+        checkbox3.setEnabled(false);
     }
 }

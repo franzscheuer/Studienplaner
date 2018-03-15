@@ -9,6 +9,9 @@
     <string name="erledigt">Erledigt</string>
     <string name="note">Note</string>
     <string name="ausstehende_kurse">Noch ausstehende Kurse:</string>
+    <string name="speichern">Speichern</string>
+    <string name="bearbeiten">Bearbeiten</string>
+    <string name="kursname">Kursname</string>
 
     <string name="example">Beispieltext</string>
 

@@ -27,6 +27,7 @@ public class ProgressActivity extends AppCompatActivity {
     }
 
     private void updateProgressBar() {
+        // get percentage of done courses in db
         int value = 75;
         progressBar.setProgress(value);
     }
