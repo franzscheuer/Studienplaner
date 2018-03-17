@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class SubjectsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -23,6 +25,8 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     private EditText note1, note2, note3;
     private Button button;
     private boolean editMode = false;
+    FirebaseDatabase db = FirebaseDatabase.getInstance();
+    DatabaseReference ref = db.getReference("user1");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,18 +137,30 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         cv.put("name1", name1.getText().toString());
         cv.put("checkbox1", checkbox1.isChecked());
         cv.put("grade1", note1.getText().toString());
-        cv.put("name2", name1.getText().toString());
-        cv.put("checkbox2", checkbox1.isChecked());
-        cv.put("grade2", note1.getText().toString());
-        cv.put("name3", name1.getText().toString());
-        cv.put("checkbox3", checkbox1.isChecked());
-        cv.put("grade3", note1.getText().toString());
+        cv.put("name2", name2.getText().toString());
+        cv.put("checkbox2", checkbox2.isChecked());
+        cv.put("grade2", note2.getText().toString());
+        cv.put("name3", name3.getText().toString());
+        cv.put("checkbox3", checkbox3.isChecked());
+        cv.put("grade3", note3.getText().toString());
         return cv;
     }
 
     private void safeDataInDatabase() {
-        // getData();
-        // safe data into database
+        ContentValues cv = getData();
+        String subject = getSubject();
+        String modul = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
+        ref.child(subject).child(modul).child(modul + "1").child("name").setValue(cv.get("name1"));
+        ref.child(subject).child(modul).child(modul + "1").child("note").setValue(cv.get("grade1"));
+        ref.child(subject).child(modul).child(modul + "1").child("done").setValue(cv.get("checkbox1"));
+        ref.child(subject).child(modul).child(modul + "2").child("name").setValue(cv.get("name2"));
+        ref.child(subject).child(modul).child(modul + "2").child("note").setValue(cv.get("grade2"));
+        ref.child(subject).child(modul).child(modul + "2").child("done").setValue(cv.get("checkbox2"));
+        if (!modul.equals("MEI-M01") && !modul.equals("MEI-M02") && !modul.equals("INF-M01") && !modul.equals("INF-M05") && !modul.equals("INF-M07")) {
+            ref.child(subject).child(modul).child(modul + "3").child("name").setValue(cv.get("name3"));
+            ref.child(subject).child(modul).child(modul + "3").child("note").setValue(cv.get("grade3"));
+            ref.child(subject).child(modul).child(modul + "3").child("done").setValue(cv.get("checkbox3"));
+        }
     }
 
     @Override
@@ -159,11 +175,13 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
                 showAll();
                 hideLast();
                 fillModulNames(item);
+                disableEditMode();
                 fillInformation(adapterView.getItemAtPosition(i).toString());
                 break;
             default:
                 showAll();
                 fillModulNames(item);
+                disableEditMode();
                 fillInformation(adapterView.getItemAtPosition(i).toString());
                 break;
         }
@@ -177,19 +195,17 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         if(!editMode) {
-            button.setText(R.string.speichern);
-            editMode = true;
             activateEditMode();
         } else {
             safeDataInDatabase();
-            button.setText(R.string.bearbeiten);
-            editMode = false;
             disableEditMode();
             Toast.makeText(this, "Speichern erfolgreich", Toast.LENGTH_LONG).show();
         }
     }
 
     private void activateEditMode() {
+        button.setText(R.string.speichern);
+        editMode = true;
         name1.setEnabled(true);
         name2.setEnabled(true);
         name3.setEnabled(true);
@@ -202,6 +218,8 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void disableEditMode() {
+        editMode = false;
+        button.setText(R.string.bearbeiten);
         name1.setEnabled(false);
         name2.setEnabled(false);
         name3.setEnabled(false);

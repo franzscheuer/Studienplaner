@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+
 public class GradesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner spinner1, spinner2;
