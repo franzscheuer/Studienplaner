@@ -1,7 +1,6 @@
 package com.example.franz.studienplaner;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class SubjectsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -24,15 +25,13 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     private EditText note1, note2, note3;
     private Button button;
     private boolean editMode = false;
-
-    private SQLiteDatabase database;
+    FirebaseDatabase db = FirebaseDatabase.getInstance();
+    DatabaseReference ref = db.getReference("user1");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
-        CourseDBHelper dbHelper = new CourseDBHelper(this);
-        database = dbHelper.getWritableDatabase();
         getSupportActionBar().setTitle(getSubject());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setupUI();
@@ -129,40 +128,39 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         position3.setText(modulPosition3);
     }
 
-    private void safeDataInDatabase() {
-        String position = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
-        ContentValues cv = new ContentValues();
-        cv.put("position", position + ".1");
-        cv.put("name", name1.getText().toString());
-        cv.put("grade", note1.getText().toString());
-        cv.put("done", getIfChecked(checkbox1));
-        database.insert(CourseDBHelper.TABLE_NAME, null, cv);
-        cv.clear();
-        cv.put("position", position + ".2");
-        cv.put("name", name2.getText().toString());
-        cv.put("grade", note2.getText().toString());
-        cv.put("done", getIfChecked(checkbox2));
-        database.insert(CourseDBHelper.TABLE_NAME, null, cv);
-        if(!position.equals("MEI-M01") && !position.equals("MEI-M02") && !position.equals("INF-M01") && !position.equals("INF-M05") && !position.equals("INF-M07")) {
-            cv.clear();
-            cv.put("position", position + ".3");
-            cv.put("name", name3.getText().toString());
-            cv.put("grade", note3.getText().toString());
-            cv.put("done", getIfChecked(checkbox3));
-            database.insert(CourseDBHelper.TABLE_NAME, null, cv);
-        }
-    }
-
-    private String getIfChecked(CheckBox cb) {
-        if(cb.isChecked()) {
-            return "done";
-        } else {
-            return "-";
-        }
-    }
-
     private void fillInformation(String k) {
         // get data from database and fill in
+    }
+
+    private ContentValues getData() {
+        ContentValues cv = new ContentValues();
+        cv.put("name1", name1.getText().toString());
+        cv.put("checkbox1", checkbox1.isChecked());
+        cv.put("grade1", note1.getText().toString());
+        cv.put("name2", name2.getText().toString());
+        cv.put("checkbox2", checkbox2.isChecked());
+        cv.put("grade2", note2.getText().toString());
+        cv.put("name3", name3.getText().toString());
+        cv.put("checkbox3", checkbox3.isChecked());
+        cv.put("grade3", note3.getText().toString());
+        return cv;
+    }
+
+    private void safeDataInDatabase() {
+        ContentValues cv = getData();
+        String subject = getSubject();
+        String modul = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
+        ref.child(subject).child(modul).child(modul + "1").child("name").setValue(cv.get("name1"));
+        ref.child(subject).child(modul).child(modul + "1").child("note").setValue(cv.get("grade1"));
+        ref.child(subject).child(modul).child(modul + "1").child("done").setValue(cv.get("checkbox1"));
+        ref.child(subject).child(modul).child(modul + "2").child("name").setValue(cv.get("name2"));
+        ref.child(subject).child(modul).child(modul + "2").child("note").setValue(cv.get("grade2"));
+        ref.child(subject).child(modul).child(modul + "2").child("done").setValue(cv.get("checkbox2"));
+        if (!modul.equals("MEI-M01") && !modul.equals("MEI-M02") && !modul.equals("INF-M01") && !modul.equals("INF-M05") && !modul.equals("INF-M07")) {
+            ref.child(subject).child(modul).child(modul + "3").child("name").setValue(cv.get("name3"));
+            ref.child(subject).child(modul).child(modul + "3").child("note").setValue(cv.get("grade3"));
+            ref.child(subject).child(modul).child(modul + "3").child("done").setValue(cv.get("checkbox3"));
+        }
     }
 
     @Override
@@ -220,8 +218,8 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void disableEditMode() {
-        button.setText(R.string.bearbeiten);
         editMode = false;
+        button.setText(R.string.bearbeiten);
         name1.setEnabled(false);
         name2.setEnabled(false);
         name3.setEnabled(false);
