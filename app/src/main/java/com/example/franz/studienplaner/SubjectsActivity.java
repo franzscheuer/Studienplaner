@@ -12,8 +12,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class SubjectsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -128,11 +132,39 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         position3.setText(modulPosition3);
     }
 
-    private void fillInformation(String k) {
-        // get data from database and fill in
+    private void getDataFromDatabase(DataSnapshot ds, String modul, String position, EditText name, CheckBox checkbox, EditText note) {
+        String subject = getSupportActionBar().getTitle().toString();
+        String tmp_name = ds.child(subject).child(modul).child(modul + position).child("name").getValue().toString();
+        String tmp_checkbox = ds.child(subject).child(modul).child(modul + position).child("done").getValue().toString();
+        String tmp_note = ds.child(subject).child(modul).child(modul + position).child("note").getValue().toString();
+        name.setText(tmp_name);
+        if(tmp_checkbox.equals("false")) {
+            checkbox.setChecked(false);
+        } else {
+            checkbox.setChecked(true);
+        }
+        note.setText(tmp_note);
     }
 
-    private ContentValues getData() {
+    private void fillInformation(final String k) {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                getDataFromDatabase(dataSnapshot, k, "1", name1, checkbox1, note1);
+                getDataFromDatabase(dataSnapshot, k, "2", name2, checkbox2, note2);
+                if(!k.equals("MEI-M01") && !k.equals("MEI-M02") && !k.equals("INF-M01") && !k.equals("INF-M05") && !k.equals("INF-M07")) {
+                    getDataFromDatabase(dataSnapshot, k, "3", name3, checkbox3, note3);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private ContentValues getDataFromView() {
         ContentValues cv = new ContentValues();
         cv.put("name1", name1.getText().toString());
         cv.put("checkbox1", checkbox1.isChecked());
@@ -147,7 +179,7 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void safeDataInDatabase() {
-        ContentValues cv = getData();
+        ContentValues cv = getDataFromView();
         String subject = getSubject();
         String modul = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
         ref.child(subject).child(modul).child(modul + "1").child("name").setValue(cv.get("name1"));
