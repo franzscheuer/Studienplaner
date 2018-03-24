@@ -2,8 +2,9 @@ package com.example.franz.studienplaner;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,9 +15,8 @@ import com.google.firebase.database.ValueEventListener;
 public class ProgressActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
-    private TextView missingCourses;
+    private ListView missingCourses;
     private int userID;
-    private String courses = "";
     FirebaseDatabase db;
     DatabaseReference ref;
 
@@ -39,7 +39,7 @@ public class ProgressActivity extends AppCompatActivity {
     private void setupUI() {
         progressBar = findViewById(R.id.progressBar);
         missingCourses = findViewById(R.id.missingCourses);
-        missingCourses.setSingleLine(false);
+        //missingCourses.setSingleLine(false);
     }
 
     private void setupDatabase() {
@@ -55,6 +55,11 @@ public class ProgressActivity extends AppCompatActivity {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                String[] mei_courses = getResources().getStringArray(R.array.mei_kurse);
+                String[] inf_courses = getResources().getStringArray(R.array.inf_kurse);
+                int totalAmount = mei_courses.length + inf_courses.length;
+                String[] courses = new String[totalAmount];
+                int k = 0;
                 String[] mei_moduls = getResources().getStringArray(R.array.mei_module);
                 String[] inf_moduls = getResources().getStringArray(R.array.inf_module);
                 int coursesDone = 0;
@@ -63,7 +68,8 @@ public class ProgressActivity extends AppCompatActivity {
                     String course_missing = dataSnapshot.child("Medieninformatik").child(mei_moduls[i]).child(mei_moduls[i] + "1").child("done").getValue().toString();
                     if(!course_missing.equals("true")){
                         course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
-                        courses = courses.concat("- " + course_position + "\n");
+                        courses[k] = course_position;
+                        k++;
                     } else {
                         coursesDone++;
                     }
@@ -71,7 +77,8 @@ public class ProgressActivity extends AppCompatActivity {
                     course_missing = dataSnapshot.child("Medieninformatik").child(mei_moduls[i]).child(mei_moduls[i] + "2").child("done").getValue().toString();
                     if(!course_missing.equals("true")){
                         course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
-                        courses = courses.concat("- " + course_position + "\n");
+                        courses[k] = course_position;
+                        k++;
                     } else {
                         coursesDone++;
                     }
@@ -80,7 +87,8 @@ public class ProgressActivity extends AppCompatActivity {
                         course_missing = dataSnapshot.child("Medieninformatik").child(mei_moduls[i]).child(mei_moduls[i] + "3").child("done").getValue().toString();
                         if(!course_missing.equals("true")){
                             course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
-                            courses = courses.concat("- " + course_position + "\n");
+                            courses[k] = course_position;
+                            k++;
                         } else {
                             coursesDone++;
                         }
@@ -91,7 +99,8 @@ public class ProgressActivity extends AppCompatActivity {
                     String course_missing = dataSnapshot.child("Informationswissenschaften").child(inf_moduls[i]).child(inf_moduls[i] + "1").child("done").getValue().toString();
                     if(!course_missing.equals("true")){
                         course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
-                        courses = courses.concat("- " + course_position + "\n");
+                        courses[k] = course_position;
+                        k++;
                     } else {
                         coursesDone++;
                     }
@@ -99,7 +108,8 @@ public class ProgressActivity extends AppCompatActivity {
                     course_missing = dataSnapshot.child("Informationswissenschaften").child(inf_moduls[i]).child(inf_moduls[i] + "2").child("done").getValue().toString();
                     if(!course_missing.equals("true")){
                         course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
-                        courses = courses.concat("- " + course_position + "\n");
+                        courses[k] = course_position;
+                        k++;
                     } else {
                         coursesDone++;
                     }
@@ -108,19 +118,39 @@ public class ProgressActivity extends AppCompatActivity {
                         course_missing = dataSnapshot.child("Informationswissenschaften").child(inf_moduls[i]).child(inf_moduls[i] + "3").child("done").getValue().toString();
                         if(!course_missing.equals("true")){
                             course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
-                            courses = courses.concat("- " + course_position + "\n");
+                            courses[k] = course_position;
+                            k++;
                         } else {
                             coursesDone++;
                         }
                     }
                 }
-                missingCourses.setText(courses);
-                updateProgressBar(coursesDone);
+                updateListView(coursesDone, courses);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+    }
+
+    private void updateListView(int coursesDone, String[] courses) {
+        int list_length = 0;
+        for(int i = 0; i < courses.length; i++) {
+            if(courses[i] != null) {
+                list_length++;
+            }
+        }
+        String[] list_array = new String[list_length];
+        int k = 0;
+        for(int i = 0; i < courses.length; i++) {
+            if(courses[i] != null) {
+                list_array[k] = courses[i];
+                k++;
+            }
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list_array);
+        missingCourses.setAdapter(adapter);
+        updateProgressBar(coursesDone);
     }
 
     private void updateProgressBar(int coursesDone) {
