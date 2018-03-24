@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,19 +28,26 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     private EditText note1, note2, note3;
     private Button button;
     private boolean editMode = false;
-    FirebaseDatabase db = FirebaseDatabase.getInstance();
-    DatabaseReference ref = db.getReference("user1");
+    private int userID;
+    FirebaseDatabase db;
+    DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
-        getSupportActionBar().setTitle(getSubject());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setupActionBar();
         setupUI();
+        getUserID();
+        setupDatabase();
         hideAll();
         disableEditMode();
         fillSpinner(getSubject());
+    }
+
+    private void setupDatabase() {
+        db = FirebaseDatabase.getInstance();
+        ref = db.getReference("user" + userID);
     }
 
     private String getSubject() {
@@ -53,6 +59,11 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
             subject = "Informationswissenschaften";
         }
         return subject;
+    }
+
+    private void setupActionBar() {
+        getSupportActionBar().setTitle(getSubject());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setupUI() {
@@ -72,6 +83,10 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         note3 = findViewById(R.id.note3);
         button = findViewById(R.id.addButton);
         button.setOnClickListener(this);
+    }
+
+    private void getUserID() {
+        userID = getIntent().getExtras().getInt("userID");
     }
 
     private void fillSpinner(String i) {
@@ -158,9 +173,7 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
@@ -220,9 +233,7 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
+    public void onNothingSelected(AdapterView<?> adapterView) {}
 
     @Override
     public void onClick(View view) {

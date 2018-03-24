@@ -5,25 +5,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 
 public class GradesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner spinner1, spinner2;
-    TextView grades;
+    ListView grades;
+    private int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grades);
+        setupActionBar();
+        setupUI();
+        getUserID();
+        setupSpinners();
+    }
+
+    private void setupActionBar() {
         getSupportActionBar().setTitle("Notenübersicht");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setupUI();
-        fillFirstSpinner();
-        emptySecondSpinner();
-        disableSecondSpinner();
     }
 
     private void setupUI() {
@@ -31,7 +35,17 @@ public class GradesActivity extends AppCompatActivity implements AdapterView.OnI
         spinner1.setOnItemSelectedListener(this);
         spinner2 = findViewById(R.id.spinner2);
         spinner2.setOnItemSelectedListener(this);
-        grades = findViewById(R.id.textView);
+        grades = findViewById(R.id.listViewGrades);
+    }
+
+    private void getUserID() {
+        userID = getIntent().getExtras().getInt("userID");
+    }
+
+    private void setupSpinners() {
+        fillFirstSpinner();
+        emptySecondSpinner();
+        disableSecondSpinner();
     }
 
     private void disableSecondSpinner() {
@@ -68,7 +82,6 @@ public class GradesActivity extends AppCompatActivity implements AdapterView.OnI
 
     private void fillTextView(String g) {
         // get all grades for chosen modul
-        grades.setText(g);
     }
 
     @Override

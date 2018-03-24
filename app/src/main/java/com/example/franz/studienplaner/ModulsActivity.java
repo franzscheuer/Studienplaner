@@ -9,13 +9,20 @@ import android.widget.Button;
 
 public class ModulsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private int userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moduls);
+        setupActionBar();
+        setupUI();
+        getUserID();
+    }
+
+    private void setupActionBar() {
         getSupportActionBar().setTitle("Module");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setupUI();
     }
 
     private void setupUI() {
@@ -27,8 +34,18 @@ public class ModulsActivity extends AppCompatActivity implements View.OnClickLis
         informationswissenschaft.setOnClickListener(this);
     }
 
+    private void getUserID() {
+        if(getIntent().getExtras() != null) {
+            userID = getIntent().getExtras().getInt("userID");
+        }
+    }
+
     @Override
     public void onClick(View view) {
-        startActivity(new Intent(ModulsActivity.this, SubjectsActivity.class).putExtra("subject", String.valueOf(view.getTag())));
+        Bundle extras = new Bundle();
+        extras.putString("subject", String.valueOf(view.getTag()));
+        extras.putInt("userID", userID);
+        Intent intent = new Intent(ModulsActivity.this, SubjectsActivity.class).putExtras(extras);
+        startActivity(intent);
     }
 }

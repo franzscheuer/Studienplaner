@@ -9,6 +9,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private int userID = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,13 +31,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.button_module:
-                startActivity(new Intent(MainActivity.this, ModulsActivity.class));
+                startActivity(new Intent(MainActivity.this, ModulsActivity.class).putExtra("userID", userID));
                 break;
             case R.id.button_noten:
-                startActivity(new Intent(MainActivity.this, GradesActivity.class));
+                startActivity(new Intent(MainActivity.this, GradesActivity.class).putExtra("userID", userID));
                 break;
             case R.id.button_fortschritt:
-                startActivity(new Intent(MainActivity.this, ProgressActivity.class));
+                startActivity(new Intent(MainActivity.this, ProgressActivity.class).putExtra("userID", userID));
                 break;
             default:
                 break;
