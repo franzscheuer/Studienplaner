@@ -172,7 +172,7 @@ public class GradesActivity extends AppCompatActivity implements AdapterView.OnI
                     grades.setText(text);
                 } else {
                     String text;
-                    double mei = 0, inf = 0;
+                    double mei, inf;
                     HashMap<String, Double> list = new HashMap<>();
                     String[] mei_moduls = getResources().getStringArray(R.array.mei_module);
                     String[] inf_moduls = getResources().getStringArray(R.array.inf_module);
