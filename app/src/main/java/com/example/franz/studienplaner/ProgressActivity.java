@@ -39,7 +39,6 @@ public class ProgressActivity extends AppCompatActivity {
     private void setupUI() {
         progressBar = findViewById(R.id.progressBar);
         missingCourses = findViewById(R.id.missingCourses);
-        //missingCourses.setSingleLine(false);
     }
 
     private void setupDatabase() {
