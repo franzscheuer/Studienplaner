@@ -101,6 +101,8 @@ public class GradesActivity extends AppCompatActivity implements AdapterView.OnI
                 String subject = spinner1.getSelectedItem().toString();
                 String modul = spinner2.getSelectedItem().toString();
                 double grade1 = 0, grade2 = 0, grade3 = 0, modul_grade = 0;
+                // wird ein einzelnes Modul ausgewählt, so werden alle Positionen durchsucht, die Noten in Variablen
+                // gespeichert und die Modulnote errechnet
                 if (!subject.equals("Gesamtübersicht")) {
                     if (!modul.equals("MEI-M01") && !modul.equals("MEI-M02") && !modul.equals("INF-M01") && !modul.equals("INF-M05") && !modul.equals("INF-M07")) {
                         if (!dataSnapshot.child(subject).child(modul).child(modul + "1").child("note").getValue().toString().isEmpty()) {
@@ -171,6 +173,8 @@ public class GradesActivity extends AppCompatActivity implements AdapterView.OnI
                     }
                     grades.setText(text);
                 } else {
+                    // wird "Gesamtübersicht" ausgewählt, so werden alle Positionen durchsucht, alle Modulnoten berechnet und gespeichert, um
+                    // die Gesamtmodulnote und Gesamtnote zu berechnen
                     String text;
                     double mei, inf;
                     HashMap<String, Double> list = new HashMap<>();
@@ -286,6 +290,8 @@ public class GradesActivity extends AppCompatActivity implements AdapterView.OnI
         });
     }
 
+    // je nach Position des ersten Spinners wird der zweite Spinner gesetzt
+    // je nach Position des zweiten Spinners wird der TextView befüllt
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         Spinner spinner = (Spinner) adapterView;
@@ -313,6 +319,7 @@ public class GradesActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {}
 
+    // Methoden zur Berechnung der Modulnoten
     private double calculateM1(double m11, double m12) {
         return 0.7 * m11 + 0.3 * m12;
     }

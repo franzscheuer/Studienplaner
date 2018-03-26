@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ref = db.getReference("user" + userID);
     }
 
+    // falls die App das erste Mal gestartet wird und noch keine ID gespeichert wurde,
+    // wird standardmäßig 0 als ID vergeben -> createNewUserID()
     private void getUserID() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         userID = sharedPreferences.getInt(USER_ID, 0);
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // diese Methode wird nur beim ersten Starten der App aufgerufen und teilt dem Nutzer
+    // eine neue ID zu, welche in der Datenbank als belegt gespeichert wird
     private void createNewUserID() {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -77,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    // beim ersten Starten der App wird die Datenbank komplett angelegt, um Fehler beim
+    // Abrufen nicht existierender Daten zu vermeiden
     private void prepareDatabase() {
         String[] mei_moduls = getResources().getStringArray(R.array.mei_module);
         String[] inf_moduls = getResources().getStringArray(R.array.inf_module);

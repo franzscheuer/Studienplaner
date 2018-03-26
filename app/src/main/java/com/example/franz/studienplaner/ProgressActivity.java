@@ -50,6 +50,8 @@ public class ProgressActivity extends AppCompatActivity {
         userID = getIntent().getExtras().getInt("userID");
     }
 
+    // alle Positionen werden durchsucht, als nicht erledigt markierte Kurse werden
+    // dem Array courses[] hinzugefügt und mitgezählt, um die Fortschrittsanzeige zu aktualisieren
     private void setMissingCourses() {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -65,7 +67,7 @@ public class ProgressActivity extends AppCompatActivity {
                 for(int i = 0; i < mei_moduls.length; i++) {
                     String course_position = dataSnapshot.child("Medieninformatik").child(mei_moduls[i]).child(mei_moduls[i] + "1").getKey();
                     String course_missing = dataSnapshot.child("Medieninformatik").child(mei_moduls[i]).child(mei_moduls[i] + "1").child("done").getValue().toString();
-                    if(!course_missing.equals("true")){
+                    if(!course_missing.equals("true")) {
                         course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
                         courses[k] = course_position;
                         k++;
@@ -74,7 +76,7 @@ public class ProgressActivity extends AppCompatActivity {
                     }
                     course_position = dataSnapshot.child("Medieninformatik").child(mei_moduls[i]).child(mei_moduls[i] + "2").getKey();
                     course_missing = dataSnapshot.child("Medieninformatik").child(mei_moduls[i]).child(mei_moduls[i] + "2").child("done").getValue().toString();
-                    if(!course_missing.equals("true")){
+                    if(!course_missing.equals("true")) {
                         course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
                         courses[k] = course_position;
                         k++;
@@ -84,7 +86,7 @@ public class ProgressActivity extends AppCompatActivity {
                     if(!mei_moduls[i].equals("MEI-M01") && !mei_moduls[i].equals("MEI-M02")) {
                         course_position = dataSnapshot.child("Medieninformatik").child(mei_moduls[i]).child(mei_moduls[i] + "3").getKey();
                         course_missing = dataSnapshot.child("Medieninformatik").child(mei_moduls[i]).child(mei_moduls[i] + "3").child("done").getValue().toString();
-                        if(!course_missing.equals("true")){
+                        if(!course_missing.equals("true")) {
                             course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
                             courses[k] = course_position;
                             k++;
@@ -96,7 +98,7 @@ public class ProgressActivity extends AppCompatActivity {
                 for(int i = 0; i < inf_moduls.length; i++) {
                     String course_position = dataSnapshot.child("Informationswissenschaften").child(inf_moduls[i]).child(inf_moduls[i] + "1").getKey();
                     String course_missing = dataSnapshot.child("Informationswissenschaften").child(inf_moduls[i]).child(inf_moduls[i] + "1").child("done").getValue().toString();
-                    if(!course_missing.equals("true")){
+                    if(!course_missing.equals("true")) {
                         course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
                         courses[k] = course_position;
                         k++;
@@ -105,7 +107,7 @@ public class ProgressActivity extends AppCompatActivity {
                     }
                     course_position = dataSnapshot.child("Informationswissenschaften").child(inf_moduls[i]).child(inf_moduls[i] + "2").getKey();
                     course_missing = dataSnapshot.child("Informationswissenschaften").child(inf_moduls[i]).child(inf_moduls[i] + "2").child("done").getValue().toString();
-                    if(!course_missing.equals("true")){
+                    if(!course_missing.equals("true")) {
                         course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
                         courses[k] = course_position;
                         k++;
@@ -115,7 +117,7 @@ public class ProgressActivity extends AppCompatActivity {
                     if(!inf_moduls[i].equals("INF-M01") && !inf_moduls[i].equals("INF-M05") && !inf_moduls[i].equals("INF-M07")) {
                         course_position = dataSnapshot.child("Informationswissenschaften").child(inf_moduls[i]).child(inf_moduls[i] + "3").getKey();
                         course_missing = dataSnapshot.child("Informationswissenschaften").child(inf_moduls[i]).child(inf_moduls[i] + "3").child("done").getValue().toString();
-                        if(!course_missing.equals("true")){
+                        if(!course_missing.equals("true")) {
                             course_position = course_position.substring(0, 7) + "." + course_position.substring(7, course_position.length());
                             courses[k] = course_position;
                             k++;
@@ -124,6 +126,7 @@ public class ProgressActivity extends AppCompatActivity {
                         }
                     }
                 }
+                // der ListView wird befüllt
                 updateListView(coursesDone, courses);
             }
 
@@ -132,6 +135,7 @@ public class ProgressActivity extends AppCompatActivity {
         });
     }
 
+    // alle gesammelten Kurse werden in den ListView eingetragen
     private void updateListView(int coursesDone, String[] courses) {
         int list_length = 0;
         for(int i = 0; i < courses.length; i++) {
@@ -152,6 +156,7 @@ public class ProgressActivity extends AppCompatActivity {
         updateProgressBar(coursesDone);
     }
 
+    // die Fortschrittsanzeige wird mit Hilfe der mitgezählten Kurse aktualisiert
     private void updateProgressBar(int coursesDone) {
         String[] mei_courses = getResources().getStringArray(R.array.mei_kurse);
         String[] inf_courses = getResources().getStringArray(R.array.inf_kurse);

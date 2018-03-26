@@ -35,9 +35,7 @@ public class ModulsActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void getUserID() {
-        if(getIntent().getExtras() != null) {
-            userID = getIntent().getExtras().getInt("userID");
-        }
+        userID = getIntent().getExtras().getInt("userID");
     }
 
     @Override

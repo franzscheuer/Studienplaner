@@ -19,7 +19,7 @@
         <activity android:name=".ModulsActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".SubjectsActivity"
-            android:parentActivityName=".ModulsActivity"/>
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".GradesActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ProgressActivity"

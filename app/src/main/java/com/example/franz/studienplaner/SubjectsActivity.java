@@ -147,6 +147,8 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         position3.setText(modulPosition3);
     }
 
+    // alle Daten für eine Position in der Ansicht werden aus der Datenbank geholt und anschließend
+    // in die übergebenen Felder gesetzt
     private void getDataFromDatabase(DataSnapshot ds, String modul, String position, EditText name, CheckBox checkbox, EditText note) {
         String subject = getSupportActionBar().getTitle().toString();
         String tmp_name = ds.child(subject).child(modul).child(modul + position).child("name").getValue().toString();
@@ -161,6 +163,7 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         note.setText(tmp_note);
     }
 
+    // alle Felder werden mit den Daten aus der Datenbank befüllt
     private void fillInformation(final String k) {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -191,6 +194,7 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
         return cv;
     }
 
+    // eingetragene Daten werden in die Datenbank geschrieben
     private void safeDataInDatabase() {
         ContentValues cv = getDataFromView();
         String subject = getSubject();
@@ -217,6 +221,8 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
             case "INF-M01":
             case "INF-M05":
             case "INF-M07":
+                // diese 5 Module bestehen im Gegensatz zum Rest nur aus 2 Kursen, weswegen die dritte
+                // Position versteckt wird
                 showAll();
                 hideLast();
                 fillModulNames(item);
@@ -235,6 +241,7 @@ public class SubjectsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {}
 
+    // beim Klicken auf den Button wird zwischen Bearbeitung und Ansicht gewechselt
     @Override
     public void onClick(View view) {
         if(!editMode) {
