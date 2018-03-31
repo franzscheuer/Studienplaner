@@ -107,11 +107,12 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/kursname"
         android:inputType="text"
         android:textSize="22sp"
         app:layout_constraintEnd_toStartOf="@+id/note1"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/position1" />
 
@@ -123,10 +124,10 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="13dp"
         android:hint="@string/kursname"
-        android:textSize="22sp"
         android:inputType="text"
+        android:textSize="22sp"
         app:layout_constraintEnd_toStartOf="@+id/note2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/position2" />
@@ -139,10 +140,10 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="13dp"
         android:hint="@string/kursname"
-        android:textSize="22sp"
         android:inputType="text"
+        android:textSize="22sp"
         app:layout_constraintEnd_toStartOf="@+id/note3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/position3" />
@@ -195,10 +196,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="@string/bearbeiten"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.936"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name3" />
 
